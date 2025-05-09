@@ -1,7 +1,10 @@
 const CACHE_NAME = 'booking-app-cache-v1';
 const urlsToCache = [
   '/',
-  '/index.html'
+  '/index.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -27,7 +30,6 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('Deleting old cache:', cache);
             return caches.delete(cache);
           }
         })
