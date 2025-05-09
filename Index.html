@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking App</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 0;
+      margin: 0;
+      background-color: #e5ddd5;
+      color: #303030;
+    }
+    header {
+      background-color: #075E54;
+      padding: 15px;
+      color: white;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    main {
+      padding: 15px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 500;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      display: inline-block;
+      background-color: #25D366;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      margin: 10px 5px 0 0;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background-color: #1ebd5b;
+    }
+    .booking {
+      border: 2px solid #075E54;
+      background: #dcf8c6;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    #bookings {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>New Booking</header>
+  <main>
+    <form id="bookingForm">
+      <label>Name <input type="text" id="name" required></label>
+      <label>Address <input type="text" id="address" required></label>
+      <label>Mobile No. <input type="tel" id="mobile" required></label>
+      <label>Date <input type="date" id="date" required></label>
+      <label>Bhagona <input type="number" id="bhagona" min="0"></label>
+      <label>Tap <input type="number" id="tap" min="0"></label>
+      <label>Balti <input type="number" id="balti" min="0"></label>
+      <label>Karchhul <input type="number" id="karchhul" min="0"></label>
+      <label>Tasa <input type="number" id="tasa" min="0"></label>
+      <label>Kisti <input type="number" id="kisti" min="0"></label>
+      <label>Karahi <input type="number" id="karahi" min="0"></label>
+      <label>Kathra <input type="number" id="kathra" min="0"></label>
+      <label>Chulha <input type="number" id="chulha" min="0"></label>
+      <label>Buffet <input type="number" id="buffet" min="0"></label>
+      <label>Drum <input type="number" id="drum" min="0"></label>
+      <label>Dustbin <input type="number" id="dustbin" min="0"></label>
+      <button type="submit">Save Booking</button>
+    </form>
+    <button onclick="showBookings()">Show Bookings</button><div id="bookings">
+  <h2>All Bookings</h2>
+  <div id="bookingList"></div>
+  <button onclick="goBack()">Back</button>
+</div>
+
+  </main>  <script>
+    const form = document.getElementById('bookingForm');
+
+    form.onsubmit = function(e) {
+      e.preventDefault();
+      const booking = {
+        id: Date.now(),
+        name: form.name.value,
+        address: form.address.value,
+        mobile: form.mobile.value,
+        date: form.date.value,
+        items: {
+          bhagona: form.bhagona.value,
+          tap: form.tap.value,
+          balti: form.balti.value,
+          karchhul: form.karchhul.value,
+          tasa: form.tasa.value,
+          kisti: form.kisti.value,
+          karahi: form.karahi.value,
+          kathra: form.kathra.value,
+          chulha: form.chulha.value,
+          buffet: form.buffet.value,
+          drum: form.drum.value,
+          dustbin: form.dustbin.value
+        }
+      };
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      bookings.push(booking);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      form.reset();
+      alert('Booking saved!');
+    }
+
+    function showBookings() {
+      document.getElementById('bookingForm').style.display = 'none';
+      document.querySelector('button[onclick="showBookings()"]')?.style.setProperty('display', 'none');
+      const list = document.getElementById('bookingList');
+      list.innerHTML = '';
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      bookings.forEach((b, index) => {
+        const div = document.createElement('div');
+        div.className = 'booking';
+        div.innerHTML = `
+          <strong>${b.name}</strong> (${b.mobile}) <br> ${b.date}<br>
+          <button onclick="showDetails(${b.id})">Show</button>
+          <button onclick="deleteBooking(${b.id})">Delete</button>
+          <button onclick="sendWhatsApp(${index})">Send to Customer on WhatsApp</button>
+        `;
+        list.appendChild(div);
+      });
+      document.getElementById('bookings').style.display = 'block';
+    }
+
+    function goBack() {
+      document.getElementById('bookingForm').style.display = 'block';
+      document.querySelector('button[onclick="showBookings()"]')?.style.setProperty('display', 'inline');
+      document.getElementById('bookings').style.display = 'none';
+    }
+
+    function showDetails(id) {
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      const b = bookings.find(x => x.id === id);
+      alert(
+        `Name: ${b.name}\nAddress: ${b.address}\nMobile: ${b.mobile}\nDate: ${b.date}\nItems:\n` +
+        Object.entries(b.items).map(([k,v]) => `${k}: ${v}`).join('\n')
+      );
+    }
+
+    function deleteBooking(id) {
+      let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      bookings = bookings.filter(b => b.id !== id);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      showBookings();
+    }
+
+    function sendWhatsApp(index) {
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      const b = bookings[index];
+      const message = `Booking Details:%0AName: ${b.name}%0AAddress: ${b.address}%0ADate: ${b.date}%0AItems:%0A` +
+        Object.entries(b.items).map(([k,v]) => `${k}: ${v}`).join('%0A');
+      window.open(`https://wa.me/91${b.mobile}?text=${message}`, '_blank');
+    }
+  </script></body>
+</html>
