@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="icon" href="icon.png">
+  <link rel="icon" href="icon-192.png">
   <link rel="manifest" href="manifest.json">
   <title>Booking Web App</title>
   <style>
@@ -36,14 +36,6 @@
         <div class="form-group"><input type="number" id="tap" placeholder="Tap"></div>
         <div class="form-group"><input type="number" id="balti" placeholder="Balti"></div>
         <div class="form-group"><input type="number" id="karchhul" placeholder="Karchhul"></div>
-        <div class="form-group"><input type="number" id="tasa" placeholder="Tasa"></div>
-        <div class="form-group"><input type="number" id="kisti" placeholder="Kisti"></div>
-        <div class="form-group"><input type="number" id="karahi" placeholder="Karahi"></div>
-        <div class="form-group"><input type="number" id="kathra" placeholder="Kathra"></div>
-        <div class="form-group"><input type="number" id="chulha" placeholder="Chulha"></div>
-        <div class="form-group"><input type="number" id="buffet" placeholder="Buffet"></div>
-        <div class="form-group"><input type="number" id="drum" placeholder="Drum"></div>
-        <div class="form-group"><input type="number" id="dustbin" placeholder="Dustbin"></div>
         <button type="submit" class="btn">Add Booking</button>
       </form>
       <button class="btn" onclick="showBookings()">Show Bookings</button>
@@ -56,8 +48,15 @@
     </div>
   </div>
 
-  <script src="sw.js"></script>
   <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js').then(() => {
+          console.log('Service Worker Registered');
+        });
+      });
+    }
+
     const formScreen = document.getElementById('form-screen');
     const bookingsScreen = document.getElementById('bookings-screen');
     const bookingForm = document.getElementById('booking-form');
@@ -97,10 +96,8 @@
       bookings.forEach(booking => {
         const div = document.createElement('div');
         div.className = 'booking-item';
-        div.innerHTML = `
-          <p>${booking.name} - ${booking.date}</p>
-          <button onclick='deleteBooking(${booking.id})' class='btn'>Delete</button>
-        `;
+        div.innerHTML = `<p>${booking.name} - ${booking.date}</p>
+                         <button onclick='deleteBooking(${booking.id})' class='btn'>Delete</button>`;
         bookingsList.appendChild(div);
       });
     }
@@ -117,5 +114,6 @@
       showBookings();
     }
   </script>
+
 </body>
-                                  </html>
+</html>
