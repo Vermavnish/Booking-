@@ -1,64 +1,63 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <link rel="icon" href="icon.png">
   <link rel="manifest" href="manifest.json">
-  <title>Booking App</title>
+  <title>Booking Web App</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f3f4f6; }
-    .header { background-color: #232f3e; padding: 15px; color: #fff; font-size: 18px; text-align: center; }
-    .container { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-    .btn { background-color: #ff9900; color: #fff; padding: 10px 20px; margin: 5px 0; border: none; cursor: pointer; }
+    body { font-family: Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 0; }
+    .header { background-color: #232f3e; color: #fff; padding: 15px; text-align: center; font-size: 18px; }
+    .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 15px; background-color: #fff; border-radius: 5px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+    .form-group { margin-bottom: 10px; }
+    .form-group input { width: calc(100% - 20px); padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+    .btn { width: 100%; background-color: #ff9900; color: #fff; padding: 12px; border: none; cursor: pointer; font-size: 16px; margin-top: 5px; }
     .btn:hover { background-color: #e68a00; }
     .booking-item { padding: 10px; border-bottom: 1px solid #ddd; }
-    .booking-item:last-child { border-bottom: none; }
     .hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="header">Booking Web App</div>  <div class="container">
+
+  <div class="header">Booking Web App</div>
+
+  <div class="container">
     <div id="form-screen">
       <h2>New Booking</h2>
       <form id="booking-form">
-        <input type="text" id="name" placeholder="Name" required><br>
-        <input type="text" id="address" placeholder="Address" required><br>
-        <input type="tel" id="mobile" placeholder="Mobile No." required><br>
-        <input type="date" id="date" required><br>
+        <div class="form-group"><input type="text" id="name" placeholder="Name" required></div>
+        <div class="form-group"><input type="text" id="address" placeholder="Address" required></div>
+        <div class="form-group"><input type="tel" id="mobile" placeholder="Mobile No." required></div>
+        <div class="form-group"><input type="date" id="date" required></div>
         <h3>Items</h3>
-        <input type="number" id="bhagona" placeholder="Bhagona"><br>
-        <input type="number" id="tap" placeholder="Tap"><br>
-        <input type="number" id="balti" placeholder="Balti"><br>
-        <input type="number" id="karchhul" placeholder="Karchhul"><br>
-        <input type="number" id="tasa" placeholder="Tasa"><br>
-        <input type="number" id="kisti" placeholder="Kisti"><br>
-        <input type="number" id="karahi" placeholder="Karahi"><br>
-        <input type="number" id="kathra" placeholder="Kathra"><br>
-        <input type="number" id="chulha" placeholder="Chulha"><br>
-        <input type="number" id="buffet" placeholder="Buffet"><br>
-        <input type="number" id="drum" placeholder="Drum"><br>
-        <input type="number" id="dustbin" placeholder="Dustbin"><br>
+        <div class="form-group"><input type="number" id="bhagona" placeholder="Bhagona"></div>
+        <div class="form-group"><input type="number" id="tap" placeholder="Tap"></div>
+        <div class="form-group"><input type="number" id="balti" placeholder="Balti"></div>
+        <div class="form-group"><input type="number" id="karchhul" placeholder="Karchhul"></div>
+        <div class="form-group"><input type="number" id="tasa" placeholder="Tasa"></div>
+        <div class="form-group"><input type="number" id="kisti" placeholder="Kisti"></div>
+        <div class="form-group"><input type="number" id="karahi" placeholder="Karahi"></div>
+        <div class="form-group"><input type="number" id="kathra" placeholder="Kathra"></div>
+        <div class="form-group"><input type="number" id="chulha" placeholder="Chulha"></div>
+        <div class="form-group"><input type="number" id="buffet" placeholder="Buffet"></div>
+        <div class="form-group"><input type="number" id="drum" placeholder="Drum"></div>
+        <div class="form-group"><input type="number" id="dustbin" placeholder="Dustbin"></div>
         <button type="submit" class="btn">Add Booking</button>
       </form>
       <button class="btn" onclick="showBookings()">Show Bookings</button>
-    </div><div id="bookings-screen" class="hidden">
-  <h2>Bookings</h2>
-  <div id="bookings-list"></div>
-  <button class="btn" onclick="backToForm()">Back</button>
-</div>
+    </div>
 
-  </div>  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js').then(function(registration) {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, function(err) {
-          console.log('ServiceWorker registration failed: ', err);
-        });
-      });
-    }
-  </script>  <script src="sw.js"></script>  <script>
+    <div id="bookings-screen" class="hidden">
+      <h2>Bookings</h2>
+      <div id="bookings-list"></div>
+      <button class="btn" onclick="backToForm()">Back</button>
+    </div>
+  </div>
+
+  <script src="sw.js"></script>
+  <script>
     const formScreen = document.getElementById('form-screen');
     const bookingsScreen = document.getElementById('bookings-screen');
     const bookingForm = document.getElementById('booking-form');
@@ -76,20 +75,12 @@
           bhagona: document.getElementById('bhagona').value || 0,
           tap: document.getElementById('tap').value || 0,
           balti: document.getElementById('balti').value || 0,
-          karchhul: document.getElementById('karchhul').value || 0,
-          tasa: document.getElementById('tasa').value || 0,
-          kisti: document.getElementById('kisti').value || 0,
-          karahi: document.getElementById('karahi').value || 0,
-          kathra: document.getElementById('kathra').value || 0,
-          chulha: document.getElementById('chulha').value || 0,
-          buffet: document.getElementById('buffet').value || 0,
-          drum: document.getElementById('drum').value || 0,
-          dustbin: document.getElementById('dustbin').value || 0
+          karchhul: document.getElementById('karchhul').value || 0
         }
       };
       saveBooking(booking);
       bookingForm.reset();
-      alert('Booking added successfully!');
+      alert('Booking added!');
     });
 
     function saveBooking(booking) {
@@ -98,9 +89,33 @@
       localStorage.setItem('bookings', JSON.stringify(bookings));
     }
 
+    function showBookings() {
+      formScreen.classList.add('hidden');
+      bookingsScreen.classList.remove('hidden');
+      bookingsList.innerHTML = '';
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+      bookings.forEach(booking => {
+        const div = document.createElement('div');
+        div.className = 'booking-item';
+        div.innerHTML = `
+          <p>${booking.name} - ${booking.date}</p>
+          <button onclick='deleteBooking(${booking.id})' class='btn'>Delete</button>
+        `;
+        bookingsList.appendChild(div);
+      });
+    }
+
     function backToForm() {
       formScreen.classList.remove('hidden');
       bookingsScreen.classList.add('hidden');
     }
-  </script></body>
-</html>
+
+    function deleteBooking(id) {
+      let bookings = JSON.parse(localStorage.getItem('bookings'));
+      bookings = bookings.filter(b => b.id !== id);
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      showBookings();
+    }
+  </script>
+</body>
+                                  </html>
